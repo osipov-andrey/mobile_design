@@ -138,7 +138,7 @@ MEDIA_URL = '/media/'
 THUMBNAIL_ALIASES = {
     '': {
         'default': {
-            'size': (96, 96),
+            'size': (24, 24),
             'crop': 'scale',
         },
     },

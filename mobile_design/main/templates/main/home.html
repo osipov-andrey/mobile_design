@@ -7,24 +7,25 @@
 <p>Hey, welcome to Buhtiyar!</p>
 
 {% if apps_last_version %}
-<ul class="list-unstyled">
+<div class="d-flex justify-content-start mt-5">
     {% for app in apps_last_version %}
-    <div>
-        <p>{{ app.application.name }}</p>
-        <p>Версия: {{ app.number }}</p>
+        <div class="mr-2">
+            <p><img class="mr-3" src="{% thumbnail app.main_screen.screen 'default' %}">{{ app.application.name }}</p>
+            <p>Версия: {{ app.number }}</p>
 
-        {% if app.screens %}
-        <p>Изображения есть.</p>
-        <img src="{{ app.main_screen.screen.url }}" height="420">
-        <img class="mr-3" src="{% thumbnail app.main_screen.screen 'default' %}">
-        {% else %}
-        <p>Нет изображений.</p>
-        {% endif %}
+            {% if app.screens %}
+            <p>Изображения есть.</p>
+            <img src="{{ app.main_screen.screen.url }}" height="420">
 
-    </div>
+            {% else %}
+            <p>Нет изображений.</p>
+            {% endif %}
+
+        </div>
+
 
     {% endfor %}
-</ul>
+</div>
 {% else %}
 <ul class="list-unstyled">
     <p>Приложений нет!</p>
