@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Buhtiyar</title>
+</head>
+
+{% load bootstrap4 %}
+{% bootstrap_css %}
+
+<body class="body" style="background-color:#f6f6f6">
+    <div class="row">
+        <div class="col col-md-auto">
+            <p>col1</p>
+            <a class="nav-link root" href="#">Browse</a>
+            <a class="nav-link root" href="#">My library</a>
+            <a class="nav-link root" href="#">Welcome</a>
+        </div>
+        <div class="col">
+            <p>col2</p>
+            {% block content %}
+            {% endblock %}
+        </div>
+        <div class="col">
+            <p>col3</p>
+        </div>
+    </div>
+
+
+</body>
+</html>
