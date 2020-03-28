@@ -1,10 +1,39 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-</head>
-<body>
+{% extends "main/header.html" %}
 
-</body>
-</html>
+{% load bootstrap4 %}
+{% load thumbnail %}
+
+{% block content %}
+    <a href="#"><< Back</a>
+    <p></p>
+    <div class="row">
+        <div class="col col-md-auto">
+            <img class="mr-3" src="{% thumbnail main_screen.screen 'app_page' %}">
+        </div>
+        <div class="col col-md-auto">
+            <p>{{ main_screen.application.application.name }}</p>
+            <p>{{ main_screen.application.application.developer }}</p>
+            <a href="#">Category | {{ main_screen.application.application.categories }} </a>
+            <p></p>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col">
+            <a href="#">Filter by Patterns</a>
+        </div>
+        <div class="col">
+            <a href="#">Filter by Elements</a>
+        </div>
+        <div class="col">
+            <a href="#">Version | {{ main_screen.application.number }} </a>
+        </div>
+    </div>
+    <div class="d-flex justify-content-start flex-wrap mt-5">
+        {% for screen in screens %}
+
+            <a href="{% url 'main:screen_detail' app_name=screen.application.application.name pk=screen.pk %}">
+                <img src="{{ screen.screen.url }}" height="420">
+            </a>
+        {% endfor %}
+    </div>
+{% endblock %}

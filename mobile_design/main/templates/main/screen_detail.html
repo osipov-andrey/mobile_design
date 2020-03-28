@@ -1,10 +1,16 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>$Title$</title>
-</head>
-<body>
-$END$
-</body>
-</html>
+{% extends "main/header.html" %}
+
+{% block content %}
+<div class="row">
+    <div class="col col-md-auto">
+        <img src="{{ screen.screen.url }}">
+    </div>
+    <div class="col col-md-auto">
+        <h1>Patterns</h1>
+        <p>{{ screen.pattern }}</p>
+        <h1>Elements</h1>
+        <p>{{ screen.elements }}</p>
+
+    </div>
+</div>
+{% endblock %}

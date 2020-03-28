@@ -25,7 +25,7 @@ SECRET_KEY = '8z9evlx32@7g()l^0er&**cx&txmal04=9w@7bhdimjl2p(91+'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['*']
 
 
 # Application definition
@@ -138,7 +138,12 @@ MEDIA_URL = '/media/'
 THUMBNAIL_ALIASES = {
     '': {
         'default': {
-            'size': (24, 24),
+            'size': (48, 48),
+            'crop': 'scale',
+        },
+
+        'app_page': {
+            'size': (96, 96),
             'crop': 'scale',
         },
     },

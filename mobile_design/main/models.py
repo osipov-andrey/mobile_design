@@ -6,11 +6,17 @@ from .utilities import get_timestamp_path
 
 class Developer(models.Model):
     name = models.CharField(max_length=30, verbose_name='Компания')
-    destination = models.CharField(max_length=100, verbose_name='Расположение')
+    destination = models.CharField(max_length=100, default='Плонета жопа', verbose_name='Расположение')
+
+    def __str__(self):
+        return self.name
 
 
 class Category(models.Model):
     name = models.CharField(max_length=30, verbose_name='Название категории')
+
+    def __str__(self):
+        return self.name
 
 
 class Application(models.Model):
@@ -19,6 +25,9 @@ class Application(models.Model):
     description = models.TextField(verbose_name='Описание')
     categories = models.ManyToManyField(Category, default=None, null=True, verbose_name='Категории')
     created_at = models.DateTimeField(auto_now_add=True, db_index=True, verbose_name='Дата создания на сайте')
+
+    def __str__(self):
+        return self.name
 
     def versions(self):
         self.versions = self.version_set.all()
@@ -48,12 +57,19 @@ class Version(models.Model):
     published = models.DateField(null=True, default=None, blank=True, verbose_name='Дата релиза')
     description = models.TextField(null=True, blank=True, verbose_name='Описание изменений')
 
+    def __str__(self):
+        return f"{self.application.name} ver: {self.number}"
+
     def main_screen(self):
         self.main_screen = self.screen_set.get(main=True)
         return self.main_screen
 
     def screens(self):
-        self.screens = self.screen_set.all()
+        self.screens = self.screen_set.filter(main=False)
+        return self.screens
+
+    def last_5_screens(self):
+        self.screens = self.screen_set.filter(main=False)[:5]
         return self.screens
 
     def delete(self, *args, **kwargs):

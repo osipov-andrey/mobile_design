@@ -1,7 +1,7 @@
 from django.contrib import admin
 
 # Register your models here.
-from .models import Application, Version, Screen
+from .models import Application, Version, Screen, Category, Developer
 
 
 class ScreenInLine(admin.TabularInline):
@@ -10,7 +10,7 @@ class ScreenInLine(admin.TabularInline):
 
 class VersionAdmin(admin.ModelAdmin):
     list_display = ('application', 'number', 'published', 'description')
-    list_display_links = ('number',)
+    list_display_links = ('application', 'number',)
     fields = ('number', 'published', 'description')
     inlines = (ScreenInLine, )
 
@@ -26,5 +26,17 @@ class ApplicationAdmin(admin.ModelAdmin):
     inlines = (VersionInLine,)
 
 
+class CategoryAdmin(admin.ModelAdmin):
+    list_display = ('name',)
+    list_display_links = ('name', )
+
+
+class DeveloperAdmin(admin.ModelAdmin):
+    list_display = ('name',)
+    list_display_links = ('name',)
+
+
 admin.site.register(Application, ApplicationAdmin)
 admin.site.register(Version, VersionAdmin)
+admin.site.register(Category, CategoryAdmin)
+admin.site.register(Developer, DeveloperAdmin)
