@@ -3,6 +3,9 @@
 {% load bootstrap4 %}
 {% load thumbnail %}
 
+{% block elements %}
+{% endblock %}
+
 {% block content %}
     <a href="#"><< Back</a>
     <p></p>
@@ -22,7 +25,9 @@
             <a href="#">Filter by Patterns</a>
         </div>
         <div class="col">
-            <a href="#">Filter by Elements</a>
+            <a href="{% url 'main:app_page_elements' app_name=main_screen.application.application.name elements='elements' %}">
+                Filter by Elements
+            </a>
         </div>
         <div class="col">
             <a href="#">Version | {{ main_screen.application.number }} </a>

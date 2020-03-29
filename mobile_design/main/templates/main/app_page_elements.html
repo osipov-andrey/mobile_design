@@ -1,0 +1,11 @@
+{% extends "main/app_page.html" %}
+
+{% load bootstrap4 %}
+{% load thumbnail %}
+
+{% block elements %}
+    <p>Elements</p>
+    {% for element in elements %}
+        <p>{{ element.name }}</p>
+    {% endfor %}
+{% endblock %}

@@ -91,7 +91,46 @@ class Pattern(models.Model):
 
 
 class Element(models.Model):
-    name = models.CharField(max_length=30, verbose_name='Название элемента')
+    name = models.CharField(max_length=30, db_index=True, unique=True, verbose_name='Название элемента')
+    order = models.SmallIntegerField(default=0, db_index=True, verbose_name='Порядок')
+    super_element = models.ForeignKey('SuperElement', on_delete=models.PROTECT, null=True, blank=True,
+                                      verbose_name='Группа элементов')
+
+
+class SuperElementManager(models.Manager):
+    def get_queryset(self):
+        return super().get_queryset().filter(super_element__isnull=True)
+
+
+class SuperElement(Element):
+    objects = SuperElementManager()
+
+    def __str__(self):
+        return self.name
+
+    class Meta:
+        proxy = True
+        ordering = ('order', 'name')
+        verbose_name = 'Группа элементов'
+        verbose_name_plural = 'Группы элементов'
+
+
+class SubElementManager(models.Manager):
+    def get_queryset(self):
+        return super().get_queryset().filter(super_element__isnull=False)
+
+
+class SubElement(Element):
+    objects = SubElementManager()
+
+    def __str__(self):
+        return f'{self.super_element.name} - {self.name}'
+
+    class Meta:
+        proxy = True
+        ordering = ('order', 'name')
+        verbose_name = 'Элемент'
+        verbose_name_plural = 'Элементы'
 
 
 class Screen(models.Model):

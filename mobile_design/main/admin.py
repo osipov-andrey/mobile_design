@@ -1,7 +1,8 @@
 from django.contrib import admin
 
 # Register your models here.
-from .models import Application, Version, Screen, Category, Developer
+from .models import Application, Version, Screen, Category, Developer, SubElement, SuperElement
+from .forms import SubElementForm
 
 
 class ScreenInLine(admin.TabularInline):
@@ -36,6 +37,21 @@ class DeveloperAdmin(admin.ModelAdmin):
     list_display_links = ('name',)
 
 
+class SubElementInLine(admin.TabularInline):
+    model = SubElement
+
+
+class SuperElementAdmin(admin.ModelAdmin):
+    exclude = ('super_element',)
+    inlines = (SubElementInLine,)
+
+
+class SubElementAdmin(admin.ModelAdmin):
+    form = SubElementForm
+
+
+admin.site.register(SubElement, SubElementAdmin)
+admin.site.register(SuperElement, SuperElementAdmin)
 admin.site.register(Application, ApplicationAdmin)
 admin.site.register(Version, VersionAdmin)
 admin.site.register(Category, CategoryAdmin)
