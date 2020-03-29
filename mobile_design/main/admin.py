@@ -1,8 +1,9 @@
 from django.contrib import admin
 
 # Register your models here.
-from .models import Application, Version, Screen, Category, Developer, SubElement, SuperElement
-from .forms import SubElementForm
+from .models import Application, Version, Screen, Category, Developer, SubElement, \
+    SuperElement, SubPattern, SuperPattern
+from .forms import SubElementForm, SubPatternForm
 
 
 class ScreenInLine(admin.TabularInline):
@@ -50,8 +51,29 @@ class SubElementAdmin(admin.ModelAdmin):
     form = SubElementForm
 
 
+class SubPatternInLine(admin.TabularInline):
+    model = SubPattern
+
+
+class SuperPatternAdmin(admin.ModelAdmin):
+    exclude = ('super_pattern',)
+    inlines = (SubPatternInLine,)
+
+
+class SubPatternAdmin(admin.ModelAdmin):
+    form = SubPatternForm
+
+
+class ScreenAdmin(admin.ModelAdmin):
+    list_display = ('name', 'application')
+    list_display_links = ('name', 'application')
+
+
+admin.site.register(Screen, ScreenAdmin)
 admin.site.register(SubElement, SubElementAdmin)
 admin.site.register(SuperElement, SuperElementAdmin)
+admin.site.register(SubPattern, SubPatternAdmin)
+admin.site.register(SuperPattern, SuperPatternAdmin)
 admin.site.register(Application, ApplicationAdmin)
 admin.site.register(Version, VersionAdmin)
 admin.site.register(Category, CategoryAdmin)

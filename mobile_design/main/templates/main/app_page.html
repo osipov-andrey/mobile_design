@@ -16,13 +16,18 @@
         <div class="col col-md-auto">
             <p>{{ main_screen.application.application.name }}</p>
             <p>{{ main_screen.application.application.developer }}</p>
-            <a href="#">Category | {{ main_screen.application.application.categories }} </a>
+            Category |
+            {% for category in main_screen.application.application.categories.all %}
+                <a href="#">{{ category.name }}</a>
+            {% endfor %}
             <p></p>
         </div>
     </div>
     <div class="row">
         <div class="col">
-            <a href="#">Filter by Patterns</a>
+            <a href="{% url 'main:app_page_patterns' app_name=main_screen.application.application.name patterns='patterns' %}">
+                Filter by Patterns
+            </a>
         </div>
         <div class="col">
             <a href="{% url 'main:app_page_elements' app_name=main_screen.application.application.name elements='elements' %}">

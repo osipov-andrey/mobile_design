@@ -4,7 +4,7 @@ from django.views.generic.list import ListView
 from django.core.exceptions import ObjectDoesNotExist
 
 # Create your views here.
-from .models import Application, Version, Screen, SubElement
+from .models import Application, Version, Screen, SubElement, SubPattern
 
 
 def index(request):
@@ -23,6 +23,8 @@ class AppPage(ListView):
     def get_template_names(self):
         if 'elements' in self.kwargs:
             template_name = 'main/app_page_elements.html'
+        elif 'patterns' in self.kwargs:
+            template_name = 'main/app_page_patterns.html'
         else:
             template_name = 'main/app_page.html'
         return template_name
@@ -43,6 +45,8 @@ class AppPage(ListView):
 
         if 'elements' in self.kwargs:
             context['elements'] = SubElement.objects.all()
+        elif 'patterns' in self.kwargs:
+            context['patterns'] = SubPattern.objects.all()
 
         return context
 

@@ -9,7 +9,9 @@
         <h1>Patterns</h1>
         <p>{{ screen.pattern }}</p>
         <h1>Elements</h1>
-        <p>{{ screen.elements }}</p>
+        {% for element in screen.elements.all %}
+            <a href="#">{{ element.name }}</a>
+        {% endfor %}
 
     </div>
 </div>

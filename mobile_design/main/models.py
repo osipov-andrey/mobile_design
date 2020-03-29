@@ -21,7 +21,8 @@ class Category(models.Model):
 
 class Application(models.Model):
     name = models.CharField(max_length=30, verbose_name='Название приложения')
-    developer = models.ForeignKey(Developer, default=None, null=True, on_delete=models.PROTECT, verbose_name='Разработчик')
+    developer = models.ForeignKey(Developer, default=None, null=True, on_delete=models.PROTECT,
+                                  verbose_name='Разработчик')
     description = models.TextField(verbose_name='Описание')
     categories = models.ManyToManyField(Category, default=None, null=True, verbose_name='Категории')
     created_at = models.DateTimeField(auto_now_add=True, db_index=True, verbose_name='Дата создания на сайте')
@@ -88,6 +89,45 @@ class Version(models.Model):
 
 class Pattern(models.Model):
     name = models.CharField(max_length=30, verbose_name='Название паттерна')
+    order = models.SmallIntegerField(default=0, db_index=True, verbose_name='Порядок')
+    super_pattern = models.ForeignKey('SuperPattern', on_delete=models.PROTECT, null=True, blank=True,
+                                      verbose_name='Группа паттернов')
+
+
+class SuperPatternManager(models.Manager):
+    def get_queryset(self):
+        return super().get_queryset().filter(super_pattern__isnull=True)
+
+
+class SuperPattern(Pattern):
+    objects = SuperPatternManager()
+
+    def __str__(self):
+        return self.name
+
+    class Meta:
+        proxy = True
+        ordering = ('order', 'name')
+        verbose_name = 'Группа паттернов'
+        verbose_name_plural = 'Группы паттернов'
+
+
+class SubPatternManager(models.Manager):
+    def get_queryset(self):
+        return super().get_queryset().filter(super_pattern__isnull=False)
+
+
+class SubPattern(Pattern):
+    objects = SubPatternManager()
+
+    def __str__(self):
+        return f'{self.name} ({self.super_pattern.name})'
+
+    class Meta:
+        proxy = True
+        ordering = ('super_pattern', 'order', 'name')
+        verbose_name = 'Паттерн'
+        verbose_name_plural = 'Паттерны'
 
 
 class Element(models.Model):
@@ -124,11 +164,11 @@ class SubElement(Element):
     objects = SubElementManager()
 
     def __str__(self):
-        return f'{self.super_element.name} - {self.name}'
+        return f'{self.name} ({self.super_element.name})'
 
     class Meta:
         proxy = True
-        ordering = ('order', 'name')
+        ordering = ('super_element', 'order', 'name')
         verbose_name = 'Элемент'
         verbose_name_plural = 'Элементы'
 
@@ -139,7 +179,7 @@ class Screen(models.Model):
     # Скрины связан с приложением через объект версии
     main = models.BooleanField(default=False, db_index=True, verbose_name='Главный экран')
     pattern = models.ManyToManyField(Pattern, null=True, blank=True, verbose_name='Паттерн')
-    elements = models.ManyToManyField(Element, null=True, blank=True, verbose_name='Элементы')
+    elements = models.ManyToManyField(SubElement, null=True, blank=True, verbose_name='Элементы')
     screen = models.ImageField(null=True, blank=True, upload_to=get_timestamp_path,
                                verbose_name='Снимок экрана')  # Добавить в имя файла название приложения
 

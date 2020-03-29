@@ -1,6 +1,6 @@
 from django import forms
 
-from .models import SubElement, SuperElement
+from .models import SubElement, SuperElement, SubPattern, SuperPattern
 
 
 class SubElementForm(forms.ModelForm):
@@ -9,4 +9,13 @@ class SubElementForm(forms.ModelForm):
 
     class Meta:
         model = SubElement
+        fields = '__all__'
+
+
+class SubPatternForm(forms.ModelForm):
+    super_pattern = forms.ModelChoiceField(queryset=SuperPattern.objects.all(), empty_label=None,
+                                           label='Группа паттернов', required=True)
+
+    class Meta:
+        model = SubPattern
         fields = '__all__'
