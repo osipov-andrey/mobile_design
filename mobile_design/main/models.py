@@ -178,7 +178,7 @@ class Screen(models.Model):
     application = models.ForeignKey(Version, on_delete=models.CASCADE, verbose_name='Приложение')
     # Скрины связан с приложением через объект версии
     main = models.BooleanField(default=False, db_index=True, verbose_name='Главный экран')
-    pattern = models.ManyToManyField(Pattern, null=True, blank=True, verbose_name='Паттерн')
+    pattern = models.ManyToManyField(SubPattern, null=True, blank=True, verbose_name='Паттерн')
     elements = models.ManyToManyField(SubElement, null=True, blank=True, verbose_name='Элементы')
     screen = models.ImageField(null=True, blank=True, upload_to=get_timestamp_path,
                                verbose_name='Снимок экрана')  # Добавить в имя файла название приложения

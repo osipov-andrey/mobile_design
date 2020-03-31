@@ -7,7 +7,9 @@
     </div>
     <div class="col col-md-auto">
         <h1>Patterns</h1>
-        <p>{{ screen.pattern }}</p>
+        {% for pattern in screen.patterns.all %}
+            <a href="#">{{ pattern.name }}</a>
+        {% endfor %}
         <h1>Elements</h1>
         {% for element in screen.elements.all %}
             <a href="#">{{ element.name }}</a>
