@@ -22,6 +22,7 @@ from django.views.decorators.cache import never_cache
 
 urlpatterns = [
     path('admin/', admin.site.urls),
+    path('accounts/', include('accounts.urls')),
     path('', include('main.urls', namespace='')),
 ]
 

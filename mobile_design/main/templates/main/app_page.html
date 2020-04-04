@@ -11,13 +11,15 @@
     <p></p>
     <div class="row">
         <div class="col col-md-auto">
-            <img class="mr-3" src="{% thumbnail main_screen.screen 'app_page' %}">
+            {% if main_screen %}
+                <img class="mr-3" src="{% thumbnail main_screen.screen 'app_page' %}">
+            {% endif %}
         </div>
         <div class="col col-md-auto">
-            <p>{{ main_screen.application.application.name }}</p>
-            <p>{{ main_screen.application.application.developer }}</p>
+            <p>{{ app_version.application.name }}</p>
+            <p>{{ app_version.application.developer }}</p>
             Category |
-            {% for category in main_screen.application.application.categories.all %}
+            {% for category in app_version.application.categories.all %}
                 <a href="#">{{ category.name }}</a>
             {% endfor %}
             <p></p>
@@ -25,17 +27,17 @@
     </div>
     <div class="row">
         <div class="col">
-            <a href="{% url 'main:app_page_patterns' app_name=main_screen.application.application.name patterns='patterns' %}">
+            <a href="{% url 'main:app_page_patterns' app_name=app_version.application.name patterns='patterns' %}">
                 Filter by Patterns
             </a>
         </div>
         <div class="col">
-            <a href="{% url 'main:app_page_elements' app_name=main_screen.application.application.name elements='elements' %}">
+            <a href="{% url 'main:app_page_elements' app_name=app_version.application.name elements='elements' %}">
                 Filter by Elements
             </a>
         </div>
         <div class="col">
-            <a href="#">Version | {{ main_screen.application.number }} </a>
+            <a href="#">Version | {{ app_version.number }} </a>
         </div>
     </div>
     <div class="d-flex justify-content-start flex-wrap mt-5">

@@ -1,4 +1,5 @@
 from django.db import models
+from django.core.exceptions import ObjectDoesNotExist
 
 # Create your models here.
 from .utilities import get_timestamp_path
@@ -62,7 +63,10 @@ class Version(models.Model):
         return f"{self.application.name} ver: {self.number}"
 
     def main_screen(self):
-        self.main_screen = self.screen_set.get(main=True)
+        try:
+            self.main_screen = self.screen_set.get(main=True)
+        except ObjectDoesNotExist:
+            return None
         return self.main_screen
 
     def screens(self):

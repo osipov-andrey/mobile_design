@@ -41,6 +41,7 @@ class AppPage(ListView):
 
         context['main_screen'] = version.main_screen()
         screens = version.screens()
+        context['app_version'] = version
         context['screens'] = screens
 
         if 'elements' in self.kwargs:
