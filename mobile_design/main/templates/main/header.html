@@ -54,8 +54,11 @@
             <div class="col">
 
                 <a class="nav-link root" href="#">SIGN IN</a>
-                {% block content %}
-                {% endblock %}
+                <section class="col border py-2">
+                    {% bootstrap_messages %} <!-- Всплывающие сообщения -->
+                    {% block content %}
+                    {% endblock %}
+                </section>
             </div>
             <div class="col col-md-auto">
                 <p>Some weird stuff</p>

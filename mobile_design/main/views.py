@@ -1,3 +1,4 @@
+from django.http import HttpResponse, HttpResponseRedirect
 from django.shortcuts import render
 from django.views.generic.detail import DetailView
 from django.views.generic.list import ListView
@@ -5,6 +6,7 @@ from django.core.exceptions import ObjectDoesNotExist
 
 # Create your views here.
 from .models import Application, Version, Screen, SubElement, SubPattern
+from .forms import SelectElementsForm
 
 
 def index(request):
@@ -46,10 +48,33 @@ class AppPage(ListView):
 
         if 'elements' in self.kwargs:
             context['elements'] = SubElement.objects.all()
+            form = SelectElementsForm
+            context['form'] = form
         elif 'patterns' in self.kwargs:
             context['patterns'] = SubPattern.objects.all()
 
         return context
+
+    def post(self, request, *args, **kwargs):
+        form = SelectElementsForm(request.POST)
+        if form.is_valid():
+            elements = form.cleaned_data.get('Elements')
+        else:
+            elements = b'false'
+
+        app = Application.objects.get(name=self.kwargs['app_name'])
+        version = app.last_version()
+        screens = set(version.screens().filter(elements__in=elements))
+        context = {
+            'screens': screens,
+            'form': form,
+            'main_screen': version.main_screen(),
+            'app_version': version,
+        }
+
+        return render(request, 'main/app_page_elements.html', context=context)
+
+
 
 
 class ScreenDetail(DetailView):

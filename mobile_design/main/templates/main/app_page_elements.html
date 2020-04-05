@@ -5,13 +5,28 @@
 
 {% block elements %}
     <nav class="col-md-auto nav flex-column border">
-        {% for element in elements %}
-            {% ifchanged element.super_element.pk %}
-                <span class="nav-link root font-weight-bold">
-                    {{ element.super_element.name }}
-                </span>
-            {% endifchanged %}
-            <a class="nav-link" href="#">{{ element.name }}</a>
-        {% endfor %}
+<!--        {% for element in elements %}-->
+<!--            {% ifchanged element.super_element.pk %}-->
+<!--                <span class="nav-link root font-weight-bold">-->
+<!--                    {{ element.super_element.name }}-->
+<!--                </span>-->
+<!--            {% endifchanged %}-->
+<!--            <a class="nav-link" href="#">{{ element.name }}</a>-->
+<!--        {% endfor %}-->
+
+        <form method="post">
+            {% csrf_token %}
+            {% bootstrap_form form layout='vertical' %}
+            {% if form.errors %}
+                <ul>
+                    {% for error in field.errors %}
+                    <li><em>{{ error|escape }}</em></li>
+                    {% endfor %}
+                </ul>
+            {% endif %}
+            <p><input type="submit" value="Фильтровать"></p>
+<!--            {% buttons submit='Фильтровать' %}{% endbuttons %}-->
+        </form>
     </nav>
+
 {% endblock %}

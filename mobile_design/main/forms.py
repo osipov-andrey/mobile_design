@@ -19,3 +19,10 @@ class SubPatternForm(forms.ModelForm):
     class Meta:
         model = SubPattern
         fields = '__all__'
+
+
+class SelectElementsForm(forms.Form):
+
+    Elements = forms.ModelMultipleChoiceField(queryset=SubElement.objects.get_queryset(),
+                                      label='Элементы', widget=forms.CheckboxSelectMultiple)
+
